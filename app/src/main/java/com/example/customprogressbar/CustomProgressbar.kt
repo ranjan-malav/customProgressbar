@@ -23,8 +23,37 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
     private var availableHeight: Float = 0f
     private var animationStartTime: Long = 0
     private val animationDuration: Int = 1000
+    private val frontColor: Int
+    private val backColor: Int
+    private val blobColor: Int
 
     init {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.CustomProgressbar,
+            0, 0
+        ).apply {
+            try {
+                frontColor =
+                    getColor(
+                        R.styleable.CustomProgressbar_frontColor,
+                        resources.getColor(R.color.colorPrimary)
+                    )
+                backColor =
+                    getColor(
+                        R.styleable.CustomProgressbar_backColor,
+                        resources.getColor(R.color.grey)
+                    )
+                blobColor =
+                    getColor(
+                        R.styleable.CustomProgressbar_blobColor,
+                        resources.getColor(R.color.orange)
+                    )
+            } finally {
+                recycle()
+            }
+        }
+
         setupPaint()
     }
 
@@ -136,7 +165,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     private fun setupFrontCirclePaint() {
         frontCirclePaint = Paint().apply {
-            color = resources.getColor(R.color.colorPrimary)
+            color = frontColor
             style = Paint.Style.STROKE
             strokeWidth = mStrokeWidth
         }
@@ -144,7 +173,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     private fun setupBackCirclePaint() {
         backCirclePaint = Paint().apply {
-            color = resources.getColor(R.color.grey)
+            color = backColor
             style = Paint.Style.STROKE
             strokeWidth = mStrokeWidth
         }
@@ -152,7 +181,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     private fun setupBlobPaint() {
         blobPaint = Paint().apply {
-            color = resources.getColor(R.color.orange)
+            color = blobColor
             style = Paint.Style.FILL
         }
     }
