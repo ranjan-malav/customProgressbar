@@ -17,12 +17,12 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
     private lateinit var frontCirclePaint: Paint
     private var progress: Int = 0
     private var endAngle: Float = 0f
-    private var blobRadius: Float = 30f
-    private var mStrokeWidth: Float = 20f
+    private var blobRadius: Float
+    private var mStrokeWidth: Float
     private var availableWidth: Float = 0f
     private var availableHeight: Float = 0f
     private var animationStartTime: Long = 0
-    private val animationDuration: Int = 1000
+    private var animationDuration: Int
     private val frontColor: Int
     private val backColor: Int
     private val blobColor: Int
@@ -49,6 +49,9 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
                         R.styleable.CustomProgressbar_blobColor,
                         resources.getColor(R.color.orange)
                     )
+                blobRadius = getFloat(R.styleable.CustomProgressbar_blobRadius, 30f)
+                mStrokeWidth = getFloat(R.styleable.CustomProgressbar_strokeWidth, 20f)
+                animationDuration = getInt(R.styleable.CustomProgressbar_animationDuration, 1000)
             } finally {
                 recycle()
             }

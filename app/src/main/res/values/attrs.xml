@@ -4,5 +4,8 @@
         <attr name="frontColor" format="color" />
         <attr name="backColor" format="color" />
         <attr name="blobColor" format="color" />
+        <attr name="animationDuration" format="integer" />
+        <attr name="blobRadius" format="float" />
+        <attr name="strokeWidth" format="float" />
     </declare-styleable>
 </resources>
