@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">CustomProgressbar</string>
+    <string name="animate">Animate</string>
+    <string name="progress">progress</string>
+    <string name="progress_perc">Progress percentage</string>
 </resources>
