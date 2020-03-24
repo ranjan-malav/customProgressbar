@@ -18,10 +18,12 @@ class MainActivity : AppCompatActivity() {
         val progressbar: CustomProgressbar = findViewById(R.id.progress_bar)
 
         animateButton.setOnClickListener {
-            val progress: Int = progressPerc.text.toString().toInt()
-            progressbar.reset()
-            progressbar.setProgress(progress)
-//            progressbar.invalidate()
+            val progressString = progressPerc.text.toString()
+            if (progressString.isNotEmpty()) {
+                val progress: Int = progressString.toInt()
+                progressbar.reset()
+                progressbar.setProgress(progress)
+            }
         }
     }
 }
