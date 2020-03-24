@@ -9,7 +9,6 @@ import android.graphics.RectF
 import kotlin.math.cos
 import kotlin.math.sin
 
-
 class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private lateinit var blobPaint: Paint
@@ -19,13 +18,13 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
     private var endAngle: Float = 0f
     private var blobRadius: Float
     private var mStrokeWidth: Float
-    private var availableWidth: Float = 0f
-    private var availableHeight: Float = 0f
+    private var availableRadius: Float = 0f
     private var animationStartTime: Long = 0
     private var animationDuration: Int
     private val frontColor: Int
     private val backColor: Int
     private val blobColor: Int
+    private val radius: Int
 
     init {
         context.theme.obtainStyledAttributes(
@@ -52,6 +51,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
                 blobRadius = getFloat(R.styleable.CustomProgressbar_blobRadius, 30f)
                 mStrokeWidth = getFloat(R.styleable.CustomProgressbar_strokeWidth, 20f)
                 animationDuration = getInt(R.styleable.CustomProgressbar_animationDuration, 1000)
+                radius = getDimensionPixelSize(R.styleable.CustomProgressbar_radius, 200)
             } finally {
                 recycle()
             }
@@ -77,9 +77,8 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-        // Need to reduce width and height otherwise blob circle will not fit inside
-        availableWidth = width - blobRadius * 2
-        availableHeight = height - blobRadius * 2
+        // Need to reduce available radius otherwise blob circle will not fit inside
+        availableRadius = radius - blobRadius * 2
 
         if (animationStartTime == 0L) {
             animationStartTime = System.currentTimeMillis()
@@ -87,9 +86,9 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
         // Draw back circle
         canvas?.drawCircle(
-            blobRadius + availableWidth / 2,
-            blobRadius + availableHeight / 2,
-            availableWidth / 2,
+            blobRadius + availableRadius / 2,
+            blobRadius + availableRadius / 2,
+            availableRadius / 2,
             backCirclePaint
         )
 
@@ -99,8 +98,8 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
         // Draw front circle
         val rectF = RectF(
             blobRadius, blobRadius,
-            blobRadius + availableWidth,
-            availableHeight + blobRadius
+            blobRadius + availableRadius,
+            availableRadius + blobRadius
         )
         canvas?.drawArc(
             rectF,
@@ -130,7 +129,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     private fun findXOfBlob(progressAngle: Float): Float {
         val x =
-            blobRadius + (availableHeight) / 2 + ((availableHeight) / 2) * sin(
+            blobRadius + (availableRadius) / 2 + ((availableRadius) / 2) * sin(
                 Math.toRadians(
                     progressAngle.toDouble()
                 )
@@ -140,7 +139,7 @@ class CustomProgressbar(context: Context, attrs: AttributeSet) : View(context, a
 
     private fun findYOfBlob(progressAngle: Float): Float {
         val y =
-            blobRadius + (availableWidth) / 2 - ((availableWidth) / 2) * cos(
+            blobRadius + (availableRadius) / 2 - ((availableRadius) / 2) * cos(
                 Math.toRadians(
                     progressAngle.toDouble()
                 )
